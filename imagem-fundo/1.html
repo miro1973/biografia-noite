@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Exemplo</title>
+<style>
+
+
+
+* {
+	margin: 0;
+	padding:0;
+}
+
+/*  estes elementos ocuparão toda a tela */
+body, html {
+	width: 100%;
+	height: 100%;
+	font-family: Arial, Tahoma, sans-serif;
+}
+
+#fundo-externo {
+	overflow: hidden; /* para que não tenha rolagem */
+	width: 100%;
+	height: 100%;
+	position: relative; /* criamos um contexto para posicionamento */
+}
+
+#fundo {
+	position: fixed; /* posição fixa para que a possível rolagem da tela não revele espaços em branco */
+	width: 100%;
+	height: 100%;
+}
+
+#fundo img {
+	width: 100%; /* com isso imagem ocupará toda a largura da tela. Se colocarmos height: 100% também, a imagem irá distorcer */
+	position: absolute;
+}
+
+#site {
+	position: absolute;
+	top: 40px;
+	left: 50%;
+	width: 560px;
+	padding: 20px;
+	margin-left: -300px; /* por causa do posicionamento absoluto temos que usar margem negativa para centralizar o site */
+	background: #FFF; /* fundo branco para navegadores que não suportam rgba */
+	background: rgba(255,255,255,0.8); /* fundo branco com um pouco de transparência */
+}
+
+p {
+	margin-bottom: 1.5em;
+}</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<script>
+
+function adaptImage(targetimg) {
+	var wheight = $(window).height(); // altura da janela do navegador
+	var wwidth = $(window).width(); // largura da janela do navegador
+	
+	// removemos os atributos de largura e altura da imagem
+    targetimg.removeAttr("width")
+    		 .removeAttr("height")
+    		 .css({ width: "", height: "" }); // removemos poss�veis regras css tamb�m
+	
+    var imgwidth = targetimg.width(); // largura da imagem
+    var imgheight = targetimg.height(); // altura da imagem
+	
+    var destwidth = wwidth; // largura que a imagem deve ter
+    var destheight = wheight; // altura que a imagem deve ter
+    
+	// aqui vamos determinar o tamanho final da imagem
+	if(imgheight < wheight) {
+		// se a altura da imagem for menor que a altura da tela, fazemos um c�lculo
+		// para redefinir a largura da imagem para bater com a altura que queremos
+		destwidth = (imgwidth * wheight)/imgheight;
+		
+		$('#fundo img').height(destheight);
+		$('#fundo img').width(destwidth);
+	}
+	
+	// aqui utilizamos um c�lculo simples para determinar o posicionamento da imagem
+	// para que a mesma fique no meio da tela
+	// posicao = dimens�o da imagem/2 - dimens�o da tela/2
+	destheight = $('#fundo img').height();
+	var posy = (destheight/2 - wheight/2);
+	var posx = (destwidth/2 - wwidth/2);
+	
+	//se o c�lculo das posicoes der resultado positivo, trocamos para negativo
+	if(posy > 0) {
+		posy *= -1;
+	}
+	if(posx > 0) {
+		posx *= -1;
+	}
+	
+	// colocamos atraves da funcao css() do jquery o posicionamento da imagem
+	$('#fundo').css({'top': posy + 'px', 'left': posx + 'px'});
+}
+
+//quando a janela for redimensionada, adaptamos a imagem
+$(window).resize(function() {
+	adaptImage($('#fundo img'));
+});
+
+//quando a pagina carregar, fazemos o mesmo
+$(window).load(function() {
+	$(window).resize();
+});</script>
+</head>
+<body>
+
+<div id="fundo-externo">
+	<div id="fundo">
+		<img src="imagem.jpg" alt="" />
+	</div>
+</div>
+<div id="site">
+	<h1>O nome do Bairro</h1>
+	<p>
+		Lagoa Nova
+	</p>
+	<h1>Quantidade de Pessoas que Moram No Bairro</h1>
+	<p>
+		Phasellus lacus diam, mollis condimentum condimentum vitae, semper ut turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam at arcu tellus. Mauris tincidunt vulputate tortor, nec congue lectus blandit at. Sed cursus, metus in viverra lobortis, metus purus rutrum neque, eu congue diam ante ac lectus. Nam vel arcu aliquet nunc dapibus suscipit. Suspendisse euismod ornare vehicula. Donec sagittis dolor convallis sapien eleifend lobortis. Etiam dapibus risus fermentum ligula pulvinar vitae dictum nunc sagittis. In ante felis, cursus ut commodo ac, molestie ut massa. Aenean ac sapien sed felis dignissim pulvinar. Fusce aliquam augue sed magna pharetra rutrum. Proin varius, magna quis ultrices posuere, dui leo molestie odio, et ornare urna libero fringilla lacus. Proin in leo massa, viverra tincidunt diam. Nullam et tortor non tellus venenatis pulvinar et tincidunt est.
+	</p>
+	<h1>Coisa boas e coisas ruins do se bairro</h1>
+	<p>
+		Quisque vitae libero mauris. Suspendisse potenti. Curabitur tincidunt faucibus laoreet. Duis pharetra varius massa non consequat. Morbi ultricies interdum mi eget suscipit. Integer volutpat suscipit velit, eget lobortis nunc ultrices eget. Pellentesque eros neque, vulputate sit amet consectetur id, congue vitae tortor. Aenean sollicitudin, neque non ultrices sollicitudin, metus lectus tincidunt velit, quis sollicitudin dui enim sed diam. Sed nulla diam, venenatis sed dictum at, tincidunt nec lorem. Nam ipsum sapien, laoreet vel aliquet vel, convallis non nulla. Nam non purus eu lectus pharetra posuere. Vestibulum tristique orci vitae orci gravida vitae lacinia nisi dignissim. Sed et metus non enim malesuada adipiscing. Integer sit amet volutpat sapien. Nam vel nisi urna. Vestibulum pharetra lectus turpis. In rhoncus interdum orci at vestibulum. Integer convallis porta sollicitudin. Cras venenatis nisi sagittis turpis dignissim tristique. Aenean sed nisi elit, sit amet dapibus justo.
+	</p>
+	<h1>Empresa e atrações do seu bairro</h1>
+	<p>
+		Vivamus tempus sagittis tempor. Vivamus facilisis dictum nibh, non rutrum sapien rutrum eget. Duis accumsan vehicula accumsan. Fusce auctor augue mattis lacus congue et aliquam turpis blandit. Aliquam varius quam id elit condimentum et aliquet ante varius. Curabitur non turpis non libero gravida adipiscing. Fusce et erat a sapien tristique consequat. Aenean rutrum massa vitae tellus rutrum vitae placerat quam porttitor. Donec consectetur scelerisque ipsum, a porta dui ornare vitae. Sed hendrerit purus ante. Suspendisse potenti. Fusce est mi, sagittis sed tempus ac, imperdiet ultrices est. Donec in hendrerit sem. Mauris accumsan, velit quis consectetur accumsan, diam neque egestas sem, sit amet condimentum velit turpis ac velit.
+	</p>
+	
+</div>
+</body>
+</html>

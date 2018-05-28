@@ -1,0 +1,31 @@
+@font-face {
+	font-family:'Oswald';
+	src: url(C:\Users\a9245513\Documents\biografia noite\fonts);
+}
+#paragrafo1{
+	font-size: 24px;
+}
+.fundo{
+	background-color: pink;
+	color:gold;
+	text-align: center;
+}
+
+	.borda-azul{
+		border: 1px solid;
+	border-color :red; 
+}
+	h1 {
+    text-align: center;
+}
+    body{ font-family: 'Oswald' Oswald-Bold}
+    ul {
+    list-style-type: circle;
+}
+#foto{
+	width:50%;
+	height:30%;
+	border-radius: 80%
+	margin-left:;
+
+}
